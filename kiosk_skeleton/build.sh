@@ -79,6 +79,8 @@ systemctl enable lightdm
 systemctl enable nginx
 systemctl enable ssh
 systemctl enable kiosk-sechedule-screen.service
+systemctl enable schedule-reboot.service
+
 
 # generate a version info/build info file
 echo -n "Chromium version: " >> /version-info
