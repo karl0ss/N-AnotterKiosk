@@ -1,0 +1,65 @@
+#!/bin/bash
+
+INI_FILE="/boot/kioskbrowser.ini"
+SYSTEMD_DIR="/etc/systemd/system"
+
+get_ini_value() {
+    local section=$1 key=$2
+    awk -F '=' -v sec="$section" -v k="$key" '
+    $0 ~ /^\[.*\]/ { in_section = ($0 == "[" sec "]") }
+    in_section && $1 ~ "^"k"$" {
+        gsub(/^[ \t]+|[ \t]+$/, "", $2)
+        print $2
+        exit
+    }' "$INI_FILE"
+}
+
+create_recurring_timer() {
+    local action=$1
+    local time=$2
+    local name="screen-${action}"
+
+    echo "Setting daily screen ${action} at ${time}"
+
+    cat <<EOF > "$SYSTEMD_DIR/${name}.timer"
+[Unit]
+Description=Daily screen ${action} timer
+
+[Timer]
+OnCalendar=*-*-* ${time}:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+EOF
+
+    cat <<EOF > "$SYSTEMD_DIR/${name}.service"
+[Unit]
+Description=Turn screen ${action}
+
+[Service]
+Type=oneshot
+Environment=DISPLAY=:0
+ExecStart=/usr/bin/xset dpms force ${action}
+EOF
+
+    systemctl daemon-reload
+    systemctl enable --now "${name}.timer"
+}
+
+cleanup_screen_timers() {
+    for action in on off; do
+        systemctl disable --now screen-${action}.timer 2>/dev/null
+        rm -f "$SYSTEMD_DIR/screen-${action}.timer" "$SYSTEMD_DIR/screen-${action}.service"
+    done
+    systemctl daemon-reload
+}
+
+# === MAIN ===
+SCREEN_ON=$(get_ini_value screen screen_on_time)
+SCREEN_OFF=$(get_ini_value screen screen_off_time)
+
+cleanup_screen_timers
+
+[[ "$SCREEN_ON"  =~ ^[0-2][0-9]:[0-5][0-9]$ ]] && create_recurring_timer on "$SCREEN_ON"
+[[ "$SCREEN_OFF" =~ ^[0-2][0-9]:[0-5][0-9]$ ]] && create_recurring_timer off "$SCREEN_OFF"
