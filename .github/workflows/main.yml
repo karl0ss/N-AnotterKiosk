@@ -55,7 +55,7 @@ jobs:
           
       - name: Build firmware
         run: |
-          ./build_raspberry_pi.sh
+          sudo ./build_raspberry_pi.sh
 
       - name: Release build artifacts
         uses: softprops/action-gh-release@v1
