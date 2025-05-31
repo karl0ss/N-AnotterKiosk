@@ -39,7 +39,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   raspberrypi:
-    runs-on: [self-hosted]
+    runs-on: [self-hosted, hetzner-cax21]
 
     outputs:
       pkgfile: ${{ steps.pkgname.outputs.pkgfile }}
