@@ -41,6 +41,8 @@ Description=Turn screen ${action}
 Type=oneshot
 Environment=DISPLAY=:0
 ExecStart=/usr/bin/xset dpms force ${action}
+Environment=XAUTHORITY=/home/pi/.Xauthority
+User=pi
 EOF
 
     systemctl daemon-reload
