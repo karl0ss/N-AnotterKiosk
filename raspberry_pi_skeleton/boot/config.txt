@@ -49,16 +49,15 @@ disable_overscan=1
 # (e.g. for USB device mode) or if USB support is not required.
 otg_mode=1
 
-[all]
+[pi3]
+arm_freq=1350
+core_freq=500
+gpu_freq=500
+over_voltage=4
 
 [pi4]
 # Run as fast as firmware / board allows
 arm_boost=1
 
 [all]
-arm_freq=1350
-core_freq=500
-gpu_freq=500
-over_voltage=4
-
 avoid_warnings=1
