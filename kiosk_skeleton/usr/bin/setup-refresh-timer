@@ -5,6 +5,16 @@ REFRESH_INTERVAL=$(awk -F '=' '/^\[screen\]/ { in_screen=1; next }
                                 in_screen && /^\[/ { in_screen=0 }
                                 in_screen && $1 ~ /refresh_screen_every_x_min/ { gsub(/ /, "", $2); print $2 }' "$INI_FILE")
 
+# Function to safely remount root FS
+remount_root() {
+    local mode=$1
+    echo "Remounting root filesystem as $mode..."
+    mount -o remount,"$mode" / || {
+        echo "Failed to remount root as $mode"
+        exit 1
+    }
+}
+
 # Safely check if REFRESH_INTERVAL is a positive integer
 if [[ "$REFRESH_INTERVAL" =~ ^[0-9]+$ ]] && (( REFRESH_INTERVAL > 0 )); then
     echo "Setting up screen refresh every $REFRESH_INTERVAL minutes..."
@@ -12,7 +22,11 @@ if [[ "$REFRESH_INTERVAL" =~ ^[0-9]+$ ]] && (( REFRESH_INTERVAL > 0 )); then
     SERVICE_UNIT="/etc/systemd/system/screen-refresh.service"
     TIMER_UNIT="/etc/systemd/system/screen-refresh.timer"
 
-    cat <<EOF | sudo tee "$SERVICE_UNIT" > /dev/null
+    # Remount as read-write
+    remount_root rw
+
+    # Write unit files
+    cat <<EOF | tee "$SERVICE_UNIT" > /dev/null
 [Unit]
 Description=Refresh Screen
 
@@ -21,7 +35,7 @@ Type=oneshot
 ExecStart=/usr/bin/refresh-screen
 EOF
 
-    cat <<EOF | sudo tee "$TIMER_UNIT" > /dev/null
+    cat <<EOF | tee "$TIMER_UNIT" > /dev/null
 [Unit]
 Description=Run screen refresh every $REFRESH_INTERVAL minutes
 
@@ -34,8 +48,14 @@ Persistent=false
 WantedBy=timers.target
 EOF
 
-    sudo systemctl daemon-reload
-    sudo systemctl enable --now screen-refresh.timer
+    # Reload and enable timer
+    systemctl daemon-reload
+    systemctl enable --now screen-refresh.timer
+
+    # Remount as read-only
+    remount_root ro
+
+    echo "Screen refresh timer setup complete."
 else
     echo "Invalid or missing refresh interval"
 fi
