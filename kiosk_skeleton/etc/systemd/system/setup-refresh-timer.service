@@ -1,0 +1,11 @@
+[Unit]
+Description=Initial screen refresh timer setup
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/setup-refresh-timer
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target
