@@ -1,0 +1,10 @@
+[Unit]
+Description=Refresh Screen
+After=graphical.target
+
+[Service]
+Type=oneshot
+User=pi
+Environment=DISPLAY=:0
+Environment=XAUTHORITY=/home/pi/.Xauthority
+ExecStart=/usr/bin/refresh-screen

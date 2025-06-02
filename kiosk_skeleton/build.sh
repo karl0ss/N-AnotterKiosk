@@ -80,6 +80,7 @@ systemctl enable nginx
 systemctl enable ssh
 systemctl enable kiosk-sechedule-screen.service
 systemctl enable schedule-reboot.service
+systemctl enable screen-refresh.service
 
 
 # generate a version info/build info file
