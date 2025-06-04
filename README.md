@@ -1,5 +1,12 @@
-AnotterKiosk
+N-AnotterKiosk (Not-AnotterKiosk)
 =============================
+
+### I have hacked this about alot from the main branch, mainly Raspberry Pi changes
+ - Removed the RO filesystem
+ - Added scheduled screen on/off
+ - Added scheduled chrome page refresh
+ - Rpi3 Overclock settings
+ - Disabled KMS driver for HW screen rotation (screen rotated portrait by default)
 
 ### Overview
 Another kiosk browser OS? Yes, this one is a little bit opinionated :)  
