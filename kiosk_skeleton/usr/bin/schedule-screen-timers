@@ -3,6 +3,18 @@
 INI_FILE="/boot/kioskbrowser.ini"
 SYSTEMD_DIR="/etc/systemd/system"
 
+
+# Function to safely remount root FS
+remount_root() {
+    local mode=$1
+    echo "Remounting root filesystem as $mode..."
+    mount -o remount,"$mode" / || {
+        echo "Failed to remount root as $mode"
+        exit 1
+    }
+}
+
+
 get_ini_value() {
     local section=$1 key=$2
     awk -F '=' -v sec="$section" -v k="$key" '
@@ -17,6 +29,17 @@ get_ini_value() {
 create_recurring_timer() {
     local action=$1
     local time=$2
+    local value
+
+    if [[ "$action" == "on" ]]; then
+        value=1
+    elif [[ "$action" == "off" ]]; then
+        value=0
+    else
+        echo "Invalid action: $action"
+        return 1
+    fi
+
     local name="screen-${action}"
 
     echo "Setting daily screen ${action} at ${time}"
@@ -39,15 +62,14 @@ Description=Turn screen ${action}
 
 [Service]
 Type=oneshot
-Environment=DISPLAY=:0
-ExecStart=/usr/bin/xset dpms force ${action}
-Environment=XAUTHORITY=/home/pi/.Xauthority
+ExecStart=/usr/bin/vcgencmd display_power ${value}
 User=pi
 EOF
 
     systemctl daemon-reload
     systemctl enable --now "${name}.timer"
 }
+
 
 cleanup_screen_timers() {
     for action in on off; do
@@ -57,6 +79,8 @@ cleanup_screen_timers() {
     systemctl daemon-reload
 }
 
+remount_root rw
+
 # === MAIN ===
 SCREEN_ON=$(get_ini_value screen screen_on_time)
 SCREEN_OFF=$(get_ini_value screen screen_off_time)
@@ -65,3 +89,5 @@ cleanup_screen_timers
 
 [[ "$SCREEN_ON"  =~ ^[0-2][0-9]:[0-5][0-9]$ ]] && create_recurring_timer on "$SCREEN_ON"
 [[ "$SCREEN_OFF" =~ ^[0-2][0-9]:[0-5][0-9]$ ]] && create_recurring_timer off "$SCREEN_OFF"
+
+remount_root ro

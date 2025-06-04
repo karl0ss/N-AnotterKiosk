@@ -1,6 +1,16 @@
 #!/bin/bash
 
 INI_FILE="/boot/kioskbrowser.ini"
+
+remount_root() {
+    local mode=$1
+    echo "Remounting root filesystem as $mode..."
+    mount -o remount,"$mode" / || {
+        echo "Failed to remount root as $mode"
+        exit 1
+    }
+}
+
 REBOOT_ENABLED=$(awk -F '=' '/^\[reboot\]/ { in_reboot=1; next }
                              in_reboot && /^\[/ { in_reboot=0 }
                              in_reboot && $1 ~ /enabled/ { gsub(/ /, "", $2); print $2 }' "$INI_FILE")
@@ -11,6 +21,8 @@ REBOOT_TIME=$(awk -F '=' '/^\[reboot\]/ { in_reboot=1; next }
 
 if [[ "$REBOOT_ENABLED" -eq 1 ]] && [[ "$REBOOT_TIME" =~ ^[0-2][0-9]:[0-5][0-9]$ ]]; then
     echo "Scheduling reboot for $REBOOT_TIME..."
+
+    remount_root rw
 
     TARGET_TIME=$(date -d "$REBOOT_TIME" +%s)
     NOW=$(date +%s)
@@ -34,7 +46,6 @@ Persistent=false
 WantedBy=timers.target
 EOF
 
-    # Create the associated service
     cat <<EOF > /etc/systemd/system/reboot-at.service
 [Unit]
 Description=Scheduled Reboot
@@ -46,6 +57,8 @@ EOF
 
     systemctl daemon-reload
     systemctl enable --now reboot-at.timer
+
+    remount_root ro
 else
     echo "Reboot not scheduled (disabled or invalid time)"
 fi

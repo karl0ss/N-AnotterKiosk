@@ -29,9 +29,13 @@ if [[ "$REFRESH_INTERVAL" =~ ^[0-9]+$ ]] && (( REFRESH_INTERVAL > 0 )); then
     cat <<EOF | tee "$SERVICE_UNIT" > /dev/null
 [Unit]
 Description=Refresh Screen
+After=graphical.target
 
 [Service]
 Type=oneshot
+User=pi
+Environment=DISPLAY=:0
+Environment=XAUTHORITY=/home/pi/.Xauthority
 ExecStart=/usr/bin/refresh-screen
 EOF
 
