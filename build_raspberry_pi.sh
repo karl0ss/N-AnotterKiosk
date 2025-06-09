@@ -7,10 +7,10 @@ SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 BUILD_DIR="${SCRIPT_DIR}/work/root/"
 
 # cleanup any previous build attempts
-umount -fl "${BUILD_DIR}" || true
-losetup -D /dev/loop0 || true
-rm -rf "${BUILD_DIR}" || true
-mkdir -p "${BUILD_DIR}"
+sudo umount -fl "${BUILD_DIR}" || true
+sudo losetup -D /dev/loop0 || true
+sudo rm -rf "${BUILD_DIR}" || true
+sudo mkdir -p "${BUILD_DIR}"
 
 # download a modern RaspiOS build
 if [ ! -f raspios.img.xz ]
