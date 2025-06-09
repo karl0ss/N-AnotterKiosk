@@ -1,8 +1,9 @@
 name: CI
 
 on:
-  create: { }
-  pull_request: { }
+  push:
+    tags:
+      - '*'  # Triggers on any tag push
 
 permissions:
   contents: write
@@ -29,7 +30,6 @@ jobs:
 
       - name: Release build artifacts
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
         with:
           append_body: true
           body_path: ./version-info
