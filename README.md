@@ -21,7 +21,6 @@ This project aims to solve a lot of those (at least for the author), it might al
 - [Images built via CI](https://github.com/Manawyrm/AnotterKiosk/blob/main/.github/workflows/main.yml)
 - WiFi connection support
 - Raspberry Pi (Arm64) compatibility
-- PC (x86) compatibility
 - [USB flash drive, USB SSD, etc. compatible](#how-to-use)
 - aarch64 mode for Raspberry Pis (_significant_ performance improvements over armv7/32bit ARM)
 - Read-only filesystem handling (no more broken SD cards)

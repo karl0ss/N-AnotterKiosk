@@ -42,9 +42,8 @@ sudo losetup -P /dev/loop0 raspikiosk.img
 sudo mount /dev/loop0p2 "${BUILD_DIR}"
 sudo mount /dev/loop0p1 "${BUILD_DIR}/boot"
 
-# Copy the (raspberry pi-specific) skeleton files
-sudo rsync -a "${SCRIPT_DIR}/raspberry_pi_skeleton/." "${BUILD_DIR}"
-sudo rsync -a "${SCRIPT_DIR}/kiosk_skeleton/." "${BUILD_DIR}/kiosk_skeleton"
+# Copy the skeleton files
+sudo rsync -a "${SCRIPT_DIR}/kiosk_skeleton/." "${BUILD_DIR}"
 
 # Make fstab read-only
 sed -i 's/vfat    defaults/vfat    ro,defaults/g' "${BUILD_DIR}/etc/fstab"
@@ -63,9 +62,10 @@ sudo mount devpts -t devtmpfs -o mode=0755,nosuid "${BUILD_DIR}/dev/"
 sudo chroot "${BUILD_DIR}" /raspberry_pi_bullseye.sh
 
 # and then actually install everything.
-sudo chroot "${BUILD_DIR}" /kiosk_skeleton/build.sh
+sudo chroot "${BUILD_DIR}" /build.sh
 
-sudo rm -r "${BUILD_DIR}/kiosk_skeleton"
+# remove the build scripts
+sudo rm "${BUILD_DIR}/build.sh"
 sudo rm "${BUILD_DIR}/raspberry_pi_bullseye.sh"
 
 cp "${BUILD_DIR}/version-info" version-info
