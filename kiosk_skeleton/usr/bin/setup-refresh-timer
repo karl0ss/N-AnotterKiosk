@@ -1,9 +1,7 @@
 #!/bin/bash
 
 INI_FILE="/boot/kioskbrowser.ini"
-REFRESH_INTERVAL=$(awk -F '=' '/^\[screen\]/ { in_screen=1; next }
-                                in_screen && /^\[/ { in_screen=0 }
-                                in_screen && $1 ~ /refresh_screen_every_x_min/ { gsub(/ /, "", $2); print $2 }' "$INI_FILE")
+REFRESH_INTERVAL=$(get-ini "$INI_FILE" screen refresh_screen_every_x_min)
 
 # Function to safely remount root FS
 remount_root() {

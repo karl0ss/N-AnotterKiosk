@@ -1,4 +1,4 @@
-# /etc/systemd/system/kiosk-sechedule-screen.service
+# /etc/systemd/system/kiosk-schedule-screen.service
 [Unit]
 Description=Schedule Screen On/Off Timers
 After=multi-user.target

@@ -6,8 +6,7 @@ then
 	if [ -f "/boot/id_rsa" ]; then
 		cp /boot/id_rsa /root/.ssh/id_rsa
 		AUTOSSH_KEYPATH="-i /root/.ssh/id_rsa"
-	fi
-	if [ -f "/boot/id_ed25519" ]; then
+	elif [ -f "/boot/id_ed25519" ]; then
 		cp /boot/id_ed25519 /root/.ssh/id_ed25519
 		AUTOSSH_KEYPATH="-i /root/.ssh/id_ed25519"
 	fi

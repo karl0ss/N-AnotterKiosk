@@ -16,14 +16,7 @@ remount_root() {
 
 
 get_ini_value() {
-    local section=$1 key=$2
-    awk -F '=' -v sec="$section" -v k="$key" '
-    $0 ~ /^\[.*\]/ { in_section = ($0 == "[" sec "]") }
-    in_section && $1 ~ "^"k"$" {
-        gsub(/^[ \t]+|[ \t]+$/, "", $2)
-        print $2
-        exit
-    }' "$INI_FILE"
+    get-ini "$INI_FILE" "$1" "$2"
 }
 
 create_recurring_timer() {
