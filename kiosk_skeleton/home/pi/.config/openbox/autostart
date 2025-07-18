@@ -44,7 +44,7 @@ fi
 
 # start chromium
 URL=$(get-ini /boot/kioskbrowser.ini browser url)
-chromium --start-fullscreen \
+chromium-browser --start-fullscreen \
 		 --allow-insecure-localhost \
 		 --autoplay-policy=no-user-gesture-required \
 		 --check-for-update-interval=1 \
