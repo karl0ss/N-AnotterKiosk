@@ -78,7 +78,7 @@ systemctl enable ntpdate
 systemctl enable lightdm
 systemctl enable nginx
 systemctl enable ssh
-systemctl enable kiosk-sechedule-screen.service
+systemctl enable kiosk-schedule-screen.service
 systemctl enable schedule-reboot.service
 systemctl enable setup-refresh-timer.service
 
