@@ -51,7 +51,7 @@ sed -i 's/ext4    defaults/ext4    ro,defaults/g' "${BUILD_DIR}/etc/fstab"
 
 # Include git repo version info
 echo -n "N-AnotterKiosk Raspberry Pi version: " > "${BUILD_DIR}/version-info"
-git describe --abbrev=4 --dirty --always --tags >> "${BUILD_DIR}/version-info"
+git describe --abbrev=4 --always --tags >> "${BUILD_DIR}/version-info"
 
 # Mount system partitions (from the build host)
 sudo mount proc -t proc -o nosuid,noexec,nodev "${BUILD_DIR}/proc/"
@@ -83,6 +83,6 @@ sudo umount "${BUILD_DIR}"
 
 sudo losetup -D /dev/loop0
 
-tag=$(git describe --abbrev=4 --dirty --always --tags)
+tag=$(git describe --abbrev=4 --always --tags)
 mv raspikiosk.img n-anotterkiosk-${tag}-arm64-raspberrypi.img
 pigz -4 n-anotterkiosk-${tag}-arm64-raspberrypi.img
