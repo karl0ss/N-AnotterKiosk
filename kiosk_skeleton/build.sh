@@ -3,7 +3,7 @@
 
 apt update
 APT_LISTCHANGES_FRONTEND=none DEBIAN_FRONTEND=noninteractive apt dist-upgrade -y
-DEBIAN_FRONTEND=noninteractive apt install -y lightdm openbox nginx php-fpm php-cli chromium autossh unclutter x11-xserver-utils xdotool htop nano openssh-server rsync x11vnc lm-sensors ntpdate scrot wireless-regdb fontconfig
+DEBIAN_FRONTEND=noninteractive apt install -y lightdm openbox nginx php-fpm php-cli chromium autossh unclutter x11-xserver-utils xdotool htop nano openssh-server rsync x11vnc lm-sensors ntpdate scrot wireless-regdb fontconfig curl gpg
 
 rsync -a --chown=root:root "/kiosk_skeleton/." "/"
 
@@ -82,6 +82,13 @@ systemctl enable kiosk-sechedule-screen.service
 systemctl enable schedule-reboot.service
 systemctl enable setup-refresh-timer.service
 
+
+# Install Hyperion
+curl -sSL https://apt.hyperion-project.org/hyperion.pub.key | gpg --dearmor -o /usr/share/keyrings/hyperion.pub.gpg
+echo "deb [signed-by=/usr/share/keyrings/hyperion.pub.gpg] https://apt.hyperion-project.org/ $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hyperion.list
+apt update
+apt install -y hyperiond
+systemctl enable hyperiond
 
 # generate a version info/build info file
 echo -n "Chromium version: " >> /version-info
