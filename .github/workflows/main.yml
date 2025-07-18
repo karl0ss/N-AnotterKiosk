@@ -26,7 +26,7 @@ jobs:
           
       - name: Build firmware
         run: |
-          sudo ./build.sh
+          sudo ./build_raspberry_pi.sh
 
       - name: Release build artifacts
         uses: softprops/action-gh-release@v1
@@ -34,6 +34,6 @@ jobs:
           append_body: true
           body_path: ./version-info
           files: |
-            ./n-anotterkiosk-*
+            ./anotterkiosk-*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
