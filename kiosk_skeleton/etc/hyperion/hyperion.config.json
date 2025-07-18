@@ -1,0 +1,20 @@
+{
+	"device" :
+	{
+		"name"       : "MyPi",
+		"type"       : "ws281x",
+		"leds"       : 50,
+		"colorOrder" : "grb",
+		"gpio"       : 18,
+		"freq"       : 800000,
+		"dmanum"     : 5
+	},
+
+	"grabber-framebuffer" :
+	{
+		"width" : 64,
+		"height" : 64,
+		"frequency_Hz" : 10.0,
+		"priority" : 890
+	}
+}

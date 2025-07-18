@@ -12,3 +12,10 @@ APT_LISTCHANGES_FRONTEND=none DEBIAN_FRONTEND=noninteractive apt -o Dpkg::Option
 # be less tested as the currently shipping kernel in the Raspberry Pi images.
 apt install -y rpi-update
 SKIP_CHECK_PARTITION=1 SKIP_WARNING=1 rpi-update
+
+# Install Hyperion.ng
+wget -qO- https://apt.hyperion-project.org/hyperion.pub | gpg --dearmor -o /usr/share/keyrings/hyperion.pub
+echo "deb [signed-by=/usr/share/keyrings/hyperion.pub] https://apt.hyperion-project.org/ bookworm main" > /etc/apt/sources.list.d/hyperion.list
+apt update
+apt install -y hyperion
+systemctl enable hyperion.service

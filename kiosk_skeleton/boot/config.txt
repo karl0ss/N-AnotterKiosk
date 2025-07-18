@@ -61,3 +61,4 @@ arm_boost=1
 
 [all]
 avoid_warnings=1
+dtparam=spi=on
