@@ -87,8 +87,8 @@ systemctl enable setup-refresh-timer.service
 curl -sSL https://apt.hyperion-project.org/hyperion.pub.key | gpg --dearmor -o /usr/share/keyrings/hyperion.pub.gpg
 echo "deb [signed-by=/usr/share/keyrings/hyperion.pub.gpg] https://apt.hyperion-project.org/ $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hyperion.list
 apt update
-apt install -y hyperiond
-systemctl enable hyperiond
+apt install -y hyperion
+systemctl enable hyperion
 
 # generate a version info/build info file
 echo -n "Chromium version: " >> /version-info

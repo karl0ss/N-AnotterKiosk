@@ -30,7 +30,7 @@ xz -kd raspios.img.xz
 # Repartition image
 export LIBGUESTFS_BACKEND_SETTINGS=force_tcg
 truncate -r raspios.img raspikiosk.img
-truncate -s +3G raspikiosk.img
+truncate -s +1G raspikiosk.img
 
 virt-resize --expand /dev/sda2 raspios.img raspikiosk.img
 rm -f raspios.img
