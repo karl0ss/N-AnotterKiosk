@@ -52,8 +52,8 @@ sudo rsync -a "${SCRIPT_DIR}/kiosk_skeleton/." "${BUILD_DIR}/kiosk_skeleton"
 fat_uuid=$(lsblk -no UUID "${ld}p1")
 ext_uuid=$(lsblk -no UUID "${ld}p2")
 
-echo "UUID=${fat_uuid}  /boot           vfat    ro,defaults          0       2" | sudo tee "${BUILD_DIR}/etc/fstab"
-echo "UUID=${ext_uuid}  /               ext4    ro,defaults,noatime  0       1" | sudo tee -a "${BUILD_DIR}/etc/fstab"
+echo "UUID=${fat_uuid}  /boot           vfat    rw,defaults          0       2" | sudo tee "${BUILD_DIR}/etc/fstab"
+echo "UUID=${ext_uuid}  /               ext4    rw,defaults,noatime  0       1" | sudo tee -a "${BUILD_DIR}/etc/fstab"
 
 # Include git repo version info
 echo -n "AnotterKiosk x86 version: " > "${BUILD_DIR}/version-info"
