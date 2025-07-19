@@ -55,9 +55,10 @@ echo -n "AnotterKiosk Raspberry Pi version: " > "${BUILD_DIR}/version-info"
 git describe --abbrev=4 --dirty --always --tags >> "${BUILD_DIR}/version-info"
 
 # Mount system partitions (from the build host)
-sudo mount proc -t proc -o nosuid,noexec,nodev "${BUILD_DIR}/proc/"
-sudo mount sys -t sysfs -o nosuid,noexec,nodev,ro "${BUILD_DIR}/sys/"
-sudo mount devpts -t devtmpfs -o mode=0755,nosuid "${BUILD_DIR}/dev/"
+sudo mount -t proc proc "${BUILD_DIR}/proc"
+sudo mount -t sysfs sysfs "${BUILD_DIR}/sys"
+sudo mount -o bind /dev "${BUILD_DIR}/dev"
+sudo mount -o bind /dev/pts "${BUILD_DIR}/dev/pts"
 
 # Install everything.
 sudo chroot "${BUILD_DIR}" /kiosk_skeleton/build.sh
@@ -66,13 +67,10 @@ sudo rm -r "${BUILD_DIR}/kiosk_skeleton"
 
 cp "${BUILD_DIR}/version-info" version-info
 
-sudo umount -fl "${BUILD_DIR}/proc"
-sudo umount -fl "${BUILD_DIR}/sys"
-sudo umount -fl "${BUILD_DIR}/dev"
-
-sudo umount "${BUILD_DIR}/proc"
-sudo umount "${BUILD_DIR}/sys"
-sudo umount "${BUILD_DIR}/dev"
+sudo umount -fl "${BUILD_DIR}/dev/pts" || true
+sudo umount -fl "${BUILD_DIR}/dev" || true
+sudo umount -fl "${BUILD_DIR}/proc" || true
+sudo umount -fl "${BUILD_DIR}/sys" || true
 
 sudo umount "${BUILD_DIR}/boot"
 sudo umount "${BUILD_DIR}"
