@@ -16,12 +16,14 @@ sudo mkdir -p "${BUILD_DIR}"
 if [ ! -f raspios.img.xz ]
 then
 	wget -O raspios.img.xz "https://downloads.raspberrypi.org/raspios_lite_arm64/images/raspios_lite_arm64-2024-03-15/2024-03-15-raspios-bookworm-arm64-lite.img.xz"
-	echo "b58a0b61612493b2b37b8415438a73496def13de56f5743e4d7334571389f3b8 raspios.img.xz" | sha256sum --check --status
+	wget -O raspios.img.xz.sha256 "https://downloads.raspberrypi.org/raspios_lite_arm64/images/raspios_lite_arm64-2024-03-15/2024-03-15-raspios-bookworm-arm64-lite.img.xz.sha256"
+	sha256sum --check --status raspios.img.xz.sha256
 	if [ $? -ne 0 ]
 	then
 	    echo "downloaded raspios does not match checksum";
-	    return -1;
+	    exit -1;
 	fi
+	rm raspios.img.xz.sha256
 fi
 
 rm -f raspios.img
