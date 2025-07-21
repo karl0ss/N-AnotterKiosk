@@ -81,12 +81,20 @@ systemctl enable ssh
 systemctl enable kiosk-sechedule-screen.service
 systemctl enable schedule-reboot.service
 systemctl enable setup-refresh-timer.service
+systemctl enable hyperiond
 
 # Install Hyperion
 curl -sSL https://apt.hyperion-project.org/hyperion.pub.key | gpg --dearmor -o /usr/share/keyrings/hyperion.pub.gpg
 echo "deb [signed-by=/usr/share/keyrings/hyperion.pub.gpg] https://apt.hyperion-project.org/ $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hyperion.list
 apt update
 apt install -y hyperion
+
+# Run Hyperion as the 'pi' user
+mkdir -p /etc/systemd/system/hyperiond.service.d
+echo -e "[Service]\nUser=pi\nGroup=pi" > /etc/systemd/system/hyperiond.service.d/override.conf
+chown -R pi:pi /var/lib/hyperion || true
+chown -R pi:pi /etc/hyperion
+usermod -a -G video pi
 
 # generate a version info/build info file
 echo -n "Chromium version: " >> /version-info
