@@ -3,6 +3,7 @@ N-AnotterKiosk (Not-AnotterKiosk)
 
 ### I have hacked this about alot from the main branch, mainly Raspberry Pi changes
 
+- Removed x86 support
 - Added scheduled screen on/off
 - Added scheduled chrome page refresh
 - Rpi3 Overclock settings
