@@ -1,6 +1,7 @@
 [Unit]
-Description=Generate wpa_supplicant.conf from kioskbrowser.ini
-Before=wpa_supplicant.service dhcpcd.service
+Description=Configure WiFi from kioskbrowser.ini
+Requires=NetworkManager.service
+After=NetworkManager.service
 
 [Service]
 Type=oneshot
