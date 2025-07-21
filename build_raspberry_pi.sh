@@ -15,8 +15,8 @@ sudo mkdir -p "${BUILD_DIR}"
 # download a modern RaspiOS build
 if [ ! -f raspios.img.xz ]
 then
-	wget -O raspios.img.xz "https://downloads.raspberrypi.org/raspios_lite_arm64/images/raspios_lite_arm64-2023-05-03/2023-05-03-raspios-bullseye-arm64-lite.img.xz"
-	echo "bf982e56b0374712d93e185780d121e3f5c3d5e33052a95f72f9aed468d58fa7 raspios.img.xz" | sha256sum --check --status
+	wget -O raspios.img.xz "https://downloads.raspberrypi.org/raspios_lite_arm64/images/raspios_lite_arm64-2024-03-15/2024-03-15-raspios-bookworm-arm64-lite.img.xz"
+	echo "b58a0b61612493b2b37b8415438a73496def13de56f5743e4d7334571389f3b8 raspios.img.xz" | sha256sum --check --status
 	if [ $? -ne 0 ]
 	then
 	    echo "downloaded raspios does not match checksum";
@@ -59,14 +59,10 @@ sudo mount proc -t proc -o nosuid,noexec,nodev "${BUILD_DIR}/proc/"
 sudo mount sys -t sysfs -o nosuid,noexec,nodev,ro "${BUILD_DIR}/sys/"
 sudo mount devpts -t devtmpfs -o mode=0755,nosuid "${BUILD_DIR}/dev/"
 
-# Raspbian currently ships only Debian 11. Let's upgrade to 12.
-sudo chroot "${BUILD_DIR}" /raspberry_pi_bullseye.sh
-
 # and then actually install everything.
 sudo chroot "${BUILD_DIR}" /kiosk_skeleton/build.sh
 
 sudo rm -r "${BUILD_DIR}/kiosk_skeleton"
-sudo rm "${BUILD_DIR}/raspberry_pi_bullseye.sh"
 
 cp "${BUILD_DIR}/version-info" version-info
 
