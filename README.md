@@ -3,7 +3,6 @@ N-AnotterKiosk (Not-AnotterKiosk)
 
 ### I have hacked this about alot from the main branch, mainly Raspberry Pi changes
 
-- Removed x86 support
 - Added scheduled screen on/off
 - Added scheduled chrome page refresh
 - Rpi3 Overclock settings
@@ -21,7 +20,6 @@ This project aims to solve a lot of those (at least for the author), it might al
 - [Images built via CI](https://github.com/Manawyrm/N-AnotterKiosk/blob/main/.github/workflows/main.yml)
 - WiFi connection support
 - Raspberry Pi (Arm64) compatibility
-- PC (x86) compatibility
 - [USB flash drive, USB SSD, etc. compatible](#how-to-use)
 - aarch64 mode for Raspberry Pis (_significant_ performance improvements over armv7/32bit ARM)
 - Read-only filesystem handling (no more broken SD cards)
