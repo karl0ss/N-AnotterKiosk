@@ -95,6 +95,9 @@ chown -R pi:pi /var/lib/hyperion || true
 chown -R pi:pi /etc/hyperion
 usermod -a -G video pi
 
+# clean up apt cache to reduce image size
+apt clean
+
 # generate a version info/build info file
 echo -n "Chromium version: " >> /version-info
 dpkg --list | grep "ii  chromium " >> /version-info
