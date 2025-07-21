@@ -33,6 +33,7 @@ This project aims to solve a lot of those (at least for the author), it might al
 - VNC support
 - SSH tunneling support (for remote-access without port-forwarding, etc.)
 - Basic API for Rpi Actions
+- Hyperion-NG support for ambilight
 
 #### Planned features:
 
@@ -122,6 +123,11 @@ Starts the screen-refresh.service to refresh the screen.
 
 `GET /script.php?action=reboot&key=YOUR_API_KEY`
 Reboots the Raspberry Pi.
+
+### Hyperion-NG
+
+The kiosk now supports Hyperion-NG for ambilight control.
+Manage Hyperion via its web interface, which is available on port 8090.
 
 ### Inspiration / Other Kiosk-OSes:
 
