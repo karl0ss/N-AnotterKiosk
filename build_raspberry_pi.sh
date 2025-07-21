@@ -17,6 +17,7 @@ if [ ! -f raspios.img.xz ]
 then
 	wget -O raspios.img.xz "https://downloads.raspberrypi.org/raspios_lite_arm64/images/raspios_lite_arm64-2024-03-15/2024-03-15-raspios-bookworm-arm64-lite.img.xz"
 	wget -O raspios.img.xz.sha256 "https://downloads.raspberrypi.org/raspios_lite_arm64/images/raspios_lite_arm64-2024-03-15/2024-03-15-raspios-bookworm-arm64-lite.img.xz.sha256"
+	sed -i 's/2024-03-15-raspios-bookworm-arm64-lite.img.xz/raspios.img.xz/g' raspios.img.xz.sha256
 	sha256sum --check --status raspios.img.xz.sha256
 	if [ $? -ne 0 ]
 	then
