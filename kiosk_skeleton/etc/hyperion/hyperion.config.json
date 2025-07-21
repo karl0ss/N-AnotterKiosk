@@ -1,6 +1,6 @@
 {
 	"general": {
-		"name": "AnotterKiosk"
+		"name": "N-AnotterKiosk"
 	},
 	"grabber": {
 		"type": "framebuffer",

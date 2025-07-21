@@ -13,7 +13,7 @@ apt install -y firmware-amd-graphics firmware-iwlwifi firmware-brcm80211 firmwar
 
 echo "grub-efi-amd64 grub2/force_efi_extra_removable boolean true" | debconf-set-selections
 update-grub
-grub-install --target=x86_64-efi --efi-directory=/boot --removable --bootloader-id=AnotterKiosk 
+grub-install --target=x86_64-efi --efi-directory=/boot --removable --bootloader-id=N-AnotterKiosk
 
 useradd -U -m -s /bin/bash -u 1000 -G audio,video,users,input,adm,dialout,plugdev,render pi
 

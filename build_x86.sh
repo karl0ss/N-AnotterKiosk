@@ -56,7 +56,7 @@ echo "UUID=${fat_uuid}  /boot           vfat    rw,defaults          0       2" 
 echo "UUID=${ext_uuid}  /               ext4    rw,defaults,noatime  0       1" | sudo tee -a "${BUILD_DIR}/etc/fstab"
 
 # Include git repo version info
-echo -n "AnotterKiosk x86 version: " > "${BUILD_DIR}/version-info"
+echo -n "N-AnotterKiosk x86 version: " > "${BUILD_DIR}/version-info"
 git describe --abbrev=4 --dirty --always --tags >> "${BUILD_DIR}/version-info"
 
 # Mount system partitions (from the build host)
@@ -86,5 +86,5 @@ sudo umount "${BUILD_DIR}"
 sudo losetup -D "${ld}"
 
 tag=$(git describe --abbrev=4 --dirty --always --tags)
-mv x86kiosk.img anotterkiosk-${tag}-x86.img
-pigz -4 anotterkiosk-${tag}-x86.img
+mv x86kiosk.img n-anotterkiosk-${tag}-x86.img
+pigz -4 n-anotterkiosk-${tag}-x86.img

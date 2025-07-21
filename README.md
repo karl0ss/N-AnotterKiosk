@@ -18,7 +18,7 @@ This project aims to solve a lot of those (at least for the author), it might al
 
 #### Key features
 
-- [Images built via CI](https://github.com/Manawyrm/AnotterKiosk/blob/main/.github/workflows/main.yml)
+- [Images built via CI](https://github.com/Manawyrm/N-AnotterKiosk/blob/main/.github/workflows/main.yml)
 - WiFi connection support
 - Raspberry Pi (Arm64) compatibility
 - PC (x86) compatibility
@@ -49,13 +49,13 @@ This project aims to solve a lot of those (at least for the author), it might al
 
 ### How-To Use
 
-Like any other Raspberry Pi image: download the current .img file from the [Releases](https://github.com/Manawyrm/AnotterKiosk/releases) page and flash it to a storage device of your choice.
+Like any other Raspberry Pi image: download the current .img file from the [Releases](https://github.com/Manawyrm/N-AnotterKiosk/releases) page and flash it to a storage device of your choice.
 SD cards, USB flash drives, USB SSDs, SATA SSDs, NVMe SSDs are all good options.
 You can use a tool like the [Raspberry Pi Imager](https://www.raspberrypi.com/software/), [BalenaEtcher](https://etcher.balena.io/), [Win32DiskImager](https://sourceforge.net/projects/win32diskimager/) or plain "dd" on \*nix-like systems.
 When using the latter two, make sure to extract the .gz compression first (using a tool like 7zip).
 
 After flashing, re-plug the storage device and open the FAT32 partition.
-Open the [`kioskbrowser.ini`](https://github.com/Manawyrm/AnotterKiosk/blob/main/kiosk_skeleton/boot/kioskbrowser.ini) file in a text editor and change everything to your needs.
+Open the [`kioskbrowser.ini`](https://github.com/Manawyrm/N-AnotterKiosk/blob/main/kiosk_skeleton/boot/kioskbrowser.ini) file in a text editor and change everything to your needs.
 More complex WiFi setups (like WPA2-Enterprise) can be configured by creating a wpa_supplicant.conf.
 Adding your own SSH keys can be done by creating a authorized_keys file.
 If you want to use the autossh tunneling features, copy an SSH private key as either "id_rsa" or "id_ed25519".

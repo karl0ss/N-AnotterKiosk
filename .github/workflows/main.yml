@@ -34,6 +34,6 @@ jobs:
           append_body: true
           body_path: ./version-info
           files: |
-            ./anotterkiosk-*
+            ./n-anotterkiosk-*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
