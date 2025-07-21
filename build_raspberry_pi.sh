@@ -45,8 +45,11 @@ sudo mount /dev/loop0p2 "${BUILD_DIR}"
 sudo mount /dev/loop0p1 "${BUILD_DIR}/boot"
 
 # Copy the (raspberry pi-specific) skeleton files
-sudo rsync -a "${SCRIPT_DIR}/raspberry_pi_skeleton/." "${BUILD_DIR}"
-sudo rsync -a "${SCRIPT_DIR}/kiosk_skeleton/." "${BUILD_DIR}/kiosk_skeleton"
+sudo rsync -rl --exclude ".DS_Store" --exclude "boot" "${SCRIPT_DIR}/raspberry_pi_skeleton/." "${BUILD_DIR}"
+sudo rsync -rl --exclude ".DS_Store" "${SCRIPT_DIR}/kiosk_skeleton/." "${BUILD_DIR}/kiosk_skeleton"
+sudo cp "${SCRIPT_DIR}/raspberry_pi_skeleton/boot/config.txt" "${BUILD_DIR}/boot/config.txt"
+sudo cp "${SCRIPT_DIR}/raspberry_pi_skeleton/boot/ssh" "${BUILD_DIR}/boot/ssh"
+sudo sed -i '$ s/$/ logo.nologo consoleblank=0 loglevel=0 quiet/' "${BUILD_DIR}/boot/cmdline.txt"
 
 # Make fstab read-only
 sed -i 's/vfat    defaults/vfat    ro,defaults/g' "${BUILD_DIR}/etc/fstab"

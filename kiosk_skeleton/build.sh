@@ -91,7 +91,9 @@ apt install -y hyperion
 # Run Hyperion as the 'pi' user
 mkdir -p /etc/systemd/system/hyperiond.service.d
 echo -e "[Service]\nUser=pi\nGroup=pi" > /etc/systemd/system/hyperiond.service.d/override.conf
-chown -R pi:pi /var/lib/hyperion || true
+mkdir -p /var/lib/hyperion
+mkdir -p /etc/hyperion
+chown -R pi:pi /var/lib/hyperion
 chown -R pi:pi /etc/hyperion
 usermod -a -G video pi
 
