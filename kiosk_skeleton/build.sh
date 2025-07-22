@@ -60,6 +60,8 @@ mkdir -p /etc/wpa_supplicant/
 ln -sf /tmp/hosts /etc/hosts
 ln -sf /tmp/hostname /etc/hostname
 ln -sf /tmp/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
+mkdir -p /etc/NetworkManager/system-connections/
+ln -sf /tmp/kiosk.nmconnection /etc/NetworkManager/system-connections/kiosk.nmconnection
 
 systemctl daemon-reload
 

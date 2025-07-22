@@ -11,13 +11,17 @@ if [ -z "${WIFI_SSID}" ]; then
     exit 0
 fi
 
+# The profile will be written to /tmp and symlinked from /etc
+PROFILE_NAME="kiosk"
+PROFILE_PATH="/tmp/${PROFILE_NAME}.nmconnection"
+
 # Generate a UUID for the connection
 UUID=$(uuidgen)
 
 # Create the NetworkManager connection file
-cat > "/etc/NetworkManager/system-connections/${WIFI_SSID}.nmconnection" << EOF
+cat > "${PROFILE_PATH}" << EOF
 [connection]
-id=${WIFI_SSID}
+id=${PROFILE_NAME}
 uuid=${UUID}
 type=wifi
 interface-name=wlan0
@@ -40,7 +44,7 @@ method=auto
 EOF
 
 # Set the correct permissions
-chmod 600 "/etc/NetworkManager/system-connections/${WIFI_SSID}.nmconnection"
-chown root:root "/etc/NetworkManager/system-connections/${WIFI_SSID}.nmconnection"
+chmod 600 "${PROFILE_PATH}"
+chown root:root "${PROFILE_PATH}"
 
-echo "Successfully created connection profile for ${WIFI_SSID}."
+echo "Successfully created connection profile at ${PROFILE_PATH}."
