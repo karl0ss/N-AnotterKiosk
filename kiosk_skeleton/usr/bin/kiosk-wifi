@@ -1,12 +1,8 @@
 #!/bin/bash
-# Redirect all output to a log file for debugging
-exec &> /var/log/kiosk-wifi.log
-set -ex
+set -e
 
-echo "--- Kiosk WiFi Configuration Starting ---"
-date
+echo "Generating NetworkManager connection profile..."
 
-echo "Reading configuration from /boot/kioskbrowser.ini..."
 WIFI_SSID=$(get-ini /boot/kioskbrowser.ini wifi ssid)
 WIFI_PSK=$(get-ini /boot/kioskbrowser.ini wifi psk)
 
@@ -15,27 +11,36 @@ if [ -z "${WIFI_SSID}" ]; then
     exit 0
 fi
 
-echo "Configuration found: SSID='${WIFI_SSID}'"
+# Generate a UUID for the connection
+UUID=$(uuidgen)
 
-echo "Waiting for WiFi adapter to be ready..."
-sleep 5
+# Create the NetworkManager connection file
+cat > "/etc/NetworkManager/system-connections/${WIFI_SSID}.nmconnection" << EOF
+[connection]
+id=${WIFI_SSID}
+uuid=${UUID}
+type=wifi
+interface-name=wlan0
+autoconnect=true
 
-echo "Checking radio status..."
-nmcli radio all
+[wifi]
+mode=infrastructure
+ssid=${WIFI_SSID}
 
-echo "Ensuring WiFi radio is on..."
-nmcli radio wifi on
+[wifi-security]
+auth-alg=open
+key-mgmt=wpa-psk
+psk=${WIFI_PSK}
 
-echo "Checking device status..."
-nmcli device status
+[ipv4]
+method=auto
 
-echo "Attempting to connect to WiFi network..."
-nmcli device wifi connect "${WIFI_SSID}" password "${WIFI_PSK}"
+[ipv6]
+method=auto
+EOF
 
-echo "Waiting a few seconds for connection to establish..."
-sleep 10
+# Set the correct permissions
+chmod 600 "/etc/NetworkManager/system-connections/${WIFI_SSID}.nmconnection"
+chown root:root "/etc/NetworkManager/system-connections/${WIFI_SSID}.nmconnection"
 
-echo "Final connection status:"
-nmcli connection show
-
-echo "--- Kiosk WiFi Configuration Finished ---"
+echo "Successfully created connection profile for ${WIFI_SSID}."

@@ -1,7 +1,6 @@
 [Unit]
-Description=Configure WiFi from kioskbrowser.ini
-Requires=NetworkManager.service
-After=NetworkManager.service
+Description=Generate NetworkManager connection profile from kioskbrowser.ini
+Before=NetworkManager.service
 
 [Service]
 Type=oneshot

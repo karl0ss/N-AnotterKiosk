@@ -2,7 +2,7 @@
 # This script is being run on the target debian platform
 
 apt update
-DEBIAN_FRONTEND=noninteractive apt install -y lightdm openbox nginx php-fpm php-cli chromium autossh unclutter x11-xserver-utils xdotool htop nano openssh-server rsync x11vnc lm-sensors ntpdate scrot wireless-regdb fontconfig php-cli
+DEBIAN_FRONTEND=noninteractive apt install -y lightdm openbox nginx php-fpm php-cli chromium autossh unclutter x11-xserver-utils xdotool htop nano openssh-server rsync x11vnc lm-sensors ntpdate scrot wireless-regdb fontconfig php-cli uuid-runtime
 
 rsync -a --chown=root:root "/kiosk_skeleton/." "/"
 chmod +x /usr/bin/kiosk-* /usr/bin/get-ini /usr/bin/refresh-screen /usr/bin/schedule-* /usr/bin/setup-refresh-timer
