@@ -1,6 +1,15 @@
-# Raspberry Pi OS "Bookworm" First-Boot Configuration
-# This file is ONLY used to get the device onto the network.
-# All other kiosk configuration is handled by kioskbrowser.ini.
+# ==============================================================================
+# == Raspberry Pi OS - First-Boot Wi-Fi Configuration
+# ==============================================================================
+#
+# This file is used ONLY to get the device onto a Wi-Fi network on its
+# very first boot. The filename "custom.toml" is required by the OS.
+#
+# -> Edit the "ssid" and "password" values below with your network details.
+#
+# All other kiosk-specific configuration (hostname, SSH keys, etc.) is
+# handled by the "kioskbrowser.ini" file after this initial boot.
+#
 
 config_version = 1
 
@@ -8,4 +17,4 @@ config_version = 1
 ssid = "YOUR_WIFI_SSID"
 password = "YOUR_WIFI_PASSWORD"
 password_encrypted = false
-country = "US"
+country = "GB"

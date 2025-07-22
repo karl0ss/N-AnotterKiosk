@@ -5,6 +5,7 @@ apt update
 DEBIAN_FRONTEND=noninteractive apt install -y lightdm openbox nginx php-fpm php-cli chromium autossh unclutter x11-xserver-utils xdotool htop nano openssh-server rsync x11vnc lm-sensors ntpdate scrot wireless-regdb fontconfig php-cli
 
 rsync -a --chown=root:root "/kiosk_skeleton/." "/"
+# Ensure all our custom scripts are executable
 chmod +x /usr/bin/kiosk-* /usr/bin/get-ini /usr/bin/refresh-screen /usr/bin/schedule-* /usr/bin/setup-refresh-timer
 
 # Add emoji support
@@ -55,8 +56,8 @@ echo "tmpfs		/root/.ssh/ tmpfs mode=0700,nosuid,nodev,uid=0,gid=0  0       0" >>
 
 # Create symlinks for configuration files which will later get created at runtime (in /tmp)
 mkdir -p /etc/wpa_supplicant/
-touch "${BUILD_DIR}/etc/hostname"
-touch "${BUILD_DIR}/etc/hosts"
+touch /etc/hostname
+touch /etc/hosts
 ln -sf /tmp/hostname /etc/hostname
 ln -sf /tmp/hosts /etc/hosts
 ln -sf /tmp/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
@@ -70,7 +71,6 @@ systemctl disable avahi-daemon || true
 systemctl disable bluetooth || true
 
 systemctl enable kiosk-ssh-keys
-systemctl enable NetworkManager
 systemctl enable NetworkManager
 systemctl enable kiosk-set-hostname
 systemctl enable kiosk-autossh
