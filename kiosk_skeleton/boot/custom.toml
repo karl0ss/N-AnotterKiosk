@@ -1,0 +1,34 @@
+# Raspberry Pi OS "Bookworm" First-Boot Configuration
+# Edit the values below with your details before the first boot.
+
+config_version = 1
+
+[system]
+# Set the hostname for the device on the network.
+hostname = "kioskpi"
+
+[user]
+# This will set the password for the default "pi" user.
+# For security, it is highly recommended to change this.
+name = "pi"
+password = "raspberry"
+password_encrypted = false
+
+[ssh]
+# Enables the SSH server for remote access.
+enabled = true
+password_authentication = true
+
+[wlan]
+# --- Wi-Fi Configuration ---
+# Replace with your Wi-Fi network name (SSID) and password.
+ssid = "YOUR_WIFI_SSID"
+password = "YOUR_WIFI_PASSWORD"
+password_encrypted = false
+hidden = false
+# Set your 2-letter ISO 3166-1 country code (e.g., US, GB, DE).
+country = "US"
+
+[locale]
+keymap = "us"
+timezone = "Etc/UTC"
