@@ -2,7 +2,7 @@
 # This script is being run on the target debian platform
 
 apt update
-DEBIAN_FRONTEND=noninteractive apt install -y lightdm openbox nginx php-fpm php-cli chromium autossh unclutter x11-xserver-utils xdotool htop nano openssh-server rsync x11vnc lm-sensors ntpdate scrot wireless-regdb fontconfig php-cli uuid-runtime
+DEBIAN_FRONTEND=noninteractive apt install -y lightdm openbox nginx php-fpm php-cli chromium autossh unclutter x11-xserver-utils xdotool htop nano openssh-server rsync x11vnc lm-sensors ntpdate scrot wireless-regdb fontconfig php-cli
 
 rsync -a --chown=root:root "/kiosk_skeleton/." "/"
 chmod +x /usr/bin/kiosk-* /usr/bin/get-ini /usr/bin/refresh-screen /usr/bin/schedule-* /usr/bin/setup-refresh-timer
@@ -60,8 +60,6 @@ mkdir -p /etc/wpa_supplicant/
 ln -sf /tmp/hosts /etc/hosts
 ln -sf /tmp/hostname /etc/hostname
 ln -sf /tmp/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
-mkdir -p /etc/NetworkManager/system-connections/
-ln -sf /tmp/kiosk.nmconnection /etc/NetworkManager/system-connections/kiosk.nmconnection
 
 systemctl daemon-reload
 
@@ -72,6 +70,7 @@ systemctl disable avahi-daemon || true
 systemctl disable bluetooth || true
 
 systemctl enable kiosk-ssh-keys
+systemctl enable NetworkManager
 systemctl enable NetworkManager
 systemctl enable kiosk-wifi
 systemctl enable kiosk-autossh
