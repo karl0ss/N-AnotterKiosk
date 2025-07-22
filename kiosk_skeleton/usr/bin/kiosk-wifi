@@ -1,15 +1,25 @@
 #!/bin/bash
 
+echo "Configuring WiFi..."
+
 WIFI_SSID=$(get-ini /boot/kioskbrowser.ini wifi ssid)
 WIFI_PSK=$(get-ini /boot/kioskbrowser.ini wifi psk)
 WIFI_COUNTRY=$(get-ini /boot/kioskbrowser.ini wifi country)
 
-if [ -n "${WIFI_COUNTRY}" ]
-then
+if [ -n "${WIFI_COUNTRY}" ]; then
+    echo "Setting WiFi country to ${WIFI_COUNTRY}"
     nmcli general reload conf-only
 fi
 
-if [ -n "${WIFI_SSID}" ]
-then
-    nmcli device wifi connect "${WIFI_SSID}" password "${WIFI_PSK}" || true
+if [ -n "${WIFI_SSID}" ]; then
+    echo "Connecting to WiFi network: ${WIFI_SSID}"
+    nmcli device wifi connect "${WIFI_SSID}" password "${WIFI_PSK}"
+    if [ $? -eq 0 ]; then
+        echo "Successfully connected to ${WIFI_SSID}"
+    else
+        echo "Failed to connect to ${WIFI_SSID}"
+        exit 1
+    fi
+else
+    echo "No WiFi SSID configured. Skipping connection."
 fi
