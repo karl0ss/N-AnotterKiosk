@@ -1,4 +1,5 @@
 <h1>Kioskbrowser</h1>
+<h2>Version: <?php echo exec('git describe --tags --abbrev=0'); ?></h2>
 
 CPU temperature: <br>
 <?php passthru("sudo vcgencmd measure_temp"); ?>
