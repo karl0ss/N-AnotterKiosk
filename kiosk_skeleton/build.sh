@@ -5,6 +5,7 @@ apt update
 DEBIAN_FRONTEND=noninteractive apt install -y lightdm openbox nginx php-fpm php-cli chromium autossh unclutter x11-xserver-utils xdotool htop nano openssh-server rsync x11vnc lm-sensors ntpdate scrot wireless-regdb fontconfig php-cli
 
 rsync -a --chown=root:root "/kiosk_skeleton/." "/"
+chmod +x /usr/bin/kiosk-* /usr/bin/get-ini /usr/bin/refresh-screen /usr/bin/schedule-* /usr/bin/setup-refresh-timer
 
 # Add emoji support
 mkdir -p /home/pi/.fonts

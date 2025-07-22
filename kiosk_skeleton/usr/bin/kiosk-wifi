@@ -1,25 +1,41 @@
 #!/bin/bash
+# Redirect all output to a log file for debugging
+exec &> /var/log/kiosk-wifi.log
+set -ex
 
-echo "Configuring WiFi..."
+echo "--- Kiosk WiFi Configuration Starting ---"
+date
 
+echo "Reading configuration from /boot/kioskbrowser.ini..."
 WIFI_SSID=$(get-ini /boot/kioskbrowser.ini wifi ssid)
 WIFI_PSK=$(get-ini /boot/kioskbrowser.ini wifi psk)
-WIFI_COUNTRY=$(get-ini /boot/kioskbrowser.ini wifi country)
 
-if [ -n "${WIFI_COUNTRY}" ]; then
-    echo "Setting WiFi country to ${WIFI_COUNTRY}"
-    nmcli general reload conf-only
+if [ -z "${WIFI_SSID}" ]; then
+    echo "No WiFi SSID configured. Exiting."
+    exit 0
 fi
 
-if [ -n "${WIFI_SSID}" ]; then
-    echo "Connecting to WiFi network: ${WIFI_SSID}"
-    nmcli device wifi connect "${WIFI_SSID}" password "${WIFI_PSK}"
-    if [ $? -eq 0 ]; then
-        echo "Successfully connected to ${WIFI_SSID}"
-    else
-        echo "Failed to connect to ${WIFI_SSID}"
-        exit 1
-    fi
-else
-    echo "No WiFi SSID configured. Skipping connection."
-fi
+echo "Configuration found: SSID='${WIFI_SSID}'"
+
+echo "Waiting for WiFi adapter to be ready..."
+sleep 5
+
+echo "Checking radio status..."
+nmcli radio all
+
+echo "Ensuring WiFi radio is on..."
+nmcli radio wifi on
+
+echo "Checking device status..."
+nmcli device status
+
+echo "Attempting to connect to WiFi network..."
+nmcli device wifi connect "${WIFI_SSID}" password "${WIFI_PSK}"
+
+echo "Waiting a few seconds for connection to establish..."
+sleep 10
+
+echo "Final connection status:"
+nmcli connection show
+
+echo "--- Kiosk WiFi Configuration Finished ---"
