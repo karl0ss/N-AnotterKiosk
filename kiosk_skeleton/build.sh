@@ -103,3 +103,7 @@ dpkg --list | grep "ii  chromium " >> /version-info
 echo -n "Linux kernel version: " >> /version-info
 ls /lib/modules/  | sort -r | head -n 1 >> /version-info
 echo >> /version-info
+
+# Clean up apt cache and remove unused packages
+apt-get clean
+apt-get autoremove -y
