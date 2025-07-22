@@ -54,11 +54,11 @@ echo "tmpfs		/home/pi/.ssh/ tmpfs mode=0700,nosuid,nodev,uid=1000,gid=1000  0   
 echo "tmpfs		/root/.ssh/ tmpfs mode=0700,nosuid,nodev,uid=0,gid=0  0       0" >> /etc/fstab
 
 # Create symlinks for configuration files which will later get created at runtime (in /tmp)
-rm /etc/hosts
-rm /etc/hostname
 mkdir -p /etc/wpa_supplicant/
-ln -sf /tmp/hosts /etc/hosts
+touch "${BUILD_DIR}/etc/hostname"
+touch "${BUILD_DIR}/etc/hosts"
 ln -sf /tmp/hostname /etc/hostname
+ln -sf /tmp/hosts /etc/hosts
 ln -sf /tmp/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
 
 systemctl daemon-reload
@@ -72,9 +72,9 @@ systemctl disable bluetooth || true
 systemctl enable kiosk-ssh-keys
 systemctl enable NetworkManager
 systemctl enable NetworkManager
+systemctl enable kiosk-set-hostname
 systemctl enable kiosk-autossh
 systemctl enable kiosk-watchdog
-systemctl enable kiosk-set-hostname
 systemctl enable ntpdate
 systemctl enable lightdm
 systemctl enable nginx

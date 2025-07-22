@@ -1,22 +1,11 @@
 # Raspberry Pi OS "Bookworm" First-Boot Configuration
-# Edit the values below with your details before the first boot.
+# This file is ONLY used to get the device onto the network.
+# All other kiosk configuration is handled by kioskbrowser.ini.
 
 config_version = 1
 
-[system]
-# Set the hostname for the device on the network.
-hostname = "kioskpi"
-
 [wlan]
-# --- Wi-Fi Configuration ---
-# Replace with your Wi-Fi network name (SSID) and password.
 ssid = "YOUR_WIFI_SSID"
 password = "YOUR_WIFI_PASSWORD"
 password_encrypted = false
-hidden = false
-# Set your 2-letter ISO 3166-1 country code (e.g., US, GB, DE).
-country = "GB"
-
-[locale]
-keymap = "us"
-timezone = "Etc/UTC"
+country = "US"
